@@ -17,6 +17,31 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff6b6b;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-trail {
+            width: 8px;
+            height: 8px;
+            background: #ffa726;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.7;
         }
 
         .container {
@@ -28,13 +53,19 @@
         /* Header */
         .header {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
             padding: 1rem 0;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.98);
         }
 
         .nav {
@@ -46,8 +77,17 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #764ba2;
+            background: linear-gradient(45deg, #764ba2, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.1);
         }
 
         .nav-links {
@@ -60,11 +100,16 @@
             text-decoration: none;
             color: #333;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 15px;
+            border-radius: 25px;
         }
 
         .nav-links a:hover {
-            color: #764ba2;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            transform: translateY(-2px);
         }
 
         /* Hero Section */
@@ -90,6 +135,40 @@
             animation: float 20s ease-in-out infinite;
         }
 
+        /* Particle system */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particleFloat 15s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
@@ -101,33 +180,53 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 2rem;
-            opacity: 0.9;
+            opacity: 0.95;
             animation: fadeInUp 1s ease-out 0.5s both;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         .cta-button {
             display: inline-block;
-            padding: 15px 30px;
+            padding: 18px 40px;
             background: linear-gradient(45deg, #ff6b6b, #ffa726);
             color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             animation: fadeInUp 1s ease-out 1s both;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.5);
         }
 
         @keyframes fadeInUp {
@@ -143,8 +242,9 @@
 
         /* Sections */
         .section {
-            padding: 80px 0;
+            padding: 100px 0;
             position: relative;
+            backdrop-filter: blur(10px);
         }
 
         .section:nth-child(even) {
@@ -157,26 +257,35 @@
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #764ba2;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+            background: linear-gradient(45deg, #764ba2, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             position: relative;
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 80px;
-            height: 4px;
+            width: 120px;
+            height: 6px;
             background: linear-gradient(45deg, #ff6b6b, #ffa726);
-            margin: 1rem auto;
-            border-radius: 2px;
+            margin: 2rem auto;
+            border-radius: 3px;
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        /* Story Timeline */
+        @keyframes pulse {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.2); }
+        }
+
+        /* Enhanced Timeline */
         .timeline {
             position: relative;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -186,57 +295,92 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            width: 6px;
+            background: linear-gradient(to bottom, #ff6b6b, #ffa726, #667eea, #764ba2);
             transform: translateX(-50%);
+            border-radius: 3px;
         }
 
         .timeline-item {
-            margin: 50px 0;
+            margin: 60px 0;
             position: relative;
             opacity: 0;
             animation: slideInView 0.8s ease-out forwards;
+            cursor: pointer;
+        }
+
+        .timeline-item:hover {
+            transform: scale(1.02);
         }
 
         .timeline-item:nth-child(odd) .timeline-content {
             margin-left: 0;
             margin-right: 50%;
-            padding-right: 30px;
+            padding-right: 40px;
             text-align: right;
         }
 
         .timeline-item:nth-child(even) .timeline-content {
             margin-left: 50%;
             margin-right: 0;
-            padding-left: 30px;
+            padding-left: 40px;
             text-align: left;
         }
 
         .timeline-content {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             position: relative;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .timeline-content:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, rgba(255,255,255,1), rgba(255,255,255,0.95));
+        }
+
+        .timeline-content h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
         }
 
         .timeline-item::before {
-            content: '🐾';
+            content: '';
             position: absolute;
             left: 50%;
-            top: 20px;
+            top: 30px;
             transform: translateX(-50%);
-            background: white;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
             border-radius: 50%;
-            padding: 10px;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
+
+        .timeline-item:hover::before {
+            transform: translateX(-50%) scale(1.2) rotate(360deg);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .timeline-item:nth-child(1)::before { content: '🐾'; }
+        .timeline-item:nth-child(2)::before { content: '😿'; }
+        .timeline-item:nth-child(3)::before { content: '👩‍🏫'; }
+        .timeline-item:nth-child(4)::before { content: '😨'; }
+        .timeline-item:nth-child(5)::before { content: '💝'; }
+        .timeline-item:nth-child(6)::before { content: '🥛'; }
+        .timeline-item:nth-child(7)::before { content: '🤗'; }
 
         @keyframes slideInView {
             from {
@@ -249,23 +393,26 @@
             }
         }
 
-        /* Portfolio Grid */
+        /* Enhanced Portfolio Grid */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 4rem;
         }
 
         .portfolio-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 40px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
         }
 
         .portfolio-card::before {
@@ -275,8 +422,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.2), transparent);
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transition: left 0.8s ease;
         }
 
         .portfolio-card:hover::before {
@@ -284,47 +431,76 @@
         }
 
         .portfolio-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            transform: translateY(-15px) rotateY(5deg);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
         }
 
         .card-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.4s ease;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .portfolio-card:hover .card-icon {
+            transform: scale(1.2) rotate(360deg);
         }
 
         .card-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #764ba2;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #764ba2, #ff6b6b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .card-description {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
         }
 
-        /* Photo Gallery */
+        /* Interactive Photo Gallery */
         .photo-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
         }
 
         .photo-item {
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
             aspect-ratio: 1;
+            background: #f0f0f0;
             background-size: cover;
             background-position: center;
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .photo-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover::before {
+            opacity: 1;
         }
 
         .photo-item:hover {
-            transform: scale(1.05);
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
         .photo-overlay {
@@ -332,69 +508,91 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
             color: white;
-            padding: 20px;
+            padding: 30px;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .photo-item:hover .photo-overlay {
             transform: translateY(0);
         }
 
-        /* Encouragement Section */
+        .photo-overlay h4 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+
+        /* Enhanced Encouragement Section */
         .encouragement {
             text-align: center;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 50%, #667eea 100%);
             color: white;
-            padding: 60px 20px;
-            border-radius: 20px;
-            margin: 40px auto;
-            max-width: 800px;
+            padding: 80px 40px;
+            border-radius: 30px;
+            margin: 60px auto;
+            max-width: 900px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
         .encouragement::before {
-            content: '✨';
+            content: '';
             position: absolute;
-            font-size: 2rem;
-            top: 20px;
-            left: 20px;
-            animation: twinkle 2s ease-in-out infinite;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        .encouragement::after {
-            content: '🌟';
-            position: absolute;
-            font-size: 2rem;
-            bottom: 20px;
-            right: 20px;
-            animation: twinkle 2s ease-in-out infinite 1s;
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
+        .encouragement-content {
+            position: relative;
+            z-index: 2;
         }
 
         .encouragement h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .encouragement p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Magic sparkles */
+        .sparkle {
+            position: absolute;
+            color: white;
+            font-size: 1.5rem;
+            animation: sparkle 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
         }
 
         /* Footer */
         .footer {
-            background: rgba(0,0,0,0.9);
+            background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,0,0,0.95));
             color: white;
             text-align: center;
-            padding: 40px 0;
+            padding: 50px 0;
+            position: relative;
+            overflow: hidden;
         }
 
         .footer-content {
@@ -403,65 +601,22 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .heart {
             color: #ff6b6b;
             animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
         }
 
         @keyframes heartbeat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.2); }
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .timeline::before {
-                left: 20px;
-            }
-
-            .timeline-item:nth-child(odd) .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                margin-left: 50px;
-                margin-right: 0;
-                padding-left: 20px;
-                padding-right: 20px;
-                text-align: left;
-            }
-
-            .timeline-item::before {
-                left: 20px;
-                transform: translateX(-50%);
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        /* Scroll animations */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease;
-        }
-
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Cat animation */
+        /* Floating cats enhanced */
         .floating-cats {
             position: fixed;
             top: 0;
@@ -474,27 +629,235 @@
 
         .floating-cat {
             position: absolute;
-            font-size: 2rem;
-            opacity: 0.1;
-            animation: floatCat 15s linear infinite;
+            font-size: 2.5rem;
+            opacity: 0.15;
+            animation: floatCat 20s linear infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         @keyframes floatCat {
             0% {
                 transform: translateX(-100px) translateY(100vh) rotate(0deg);
             }
+            25% {
+                transform: translateX(25vw) translateY(75vh) rotate(90deg);
+            }
+            50% {
+                transform: translateX(50vw) translateY(50vh) rotate(180deg);
+            }
+            75% {
+                transform: translateX(75vw) translateY(25vh) rotate(270deg);
+            }
             100% {
                 transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(360deg);
             }
         }
+
+        /* Achievement badges */
+        .achievement {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10000;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .achievement.show {
+            transform: translate(-50%, -50%) scale(1);
+            animation: achievementPop 3s ease-in-out;
+        }
+
+        @keyframes achievementPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); }
+            20% { transform: translate(-50%, -50%) scale(1.1) rotate(0deg); }
+            80% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) scale(0) rotate(180deg); }
+        }
+
+        /* Progress tracker */
+        .progress-tracker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            z-index: 1001;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        /* Interactive elements */
+        .interactive-quote {
+            background: linear-gradient(135deg, rgba(255,107,107,0.1), rgba(255,167,38,0.1));
+            border-left: 5px solid #ff6b6b;
+            padding: 30px;
+            margin: 40px auto;
+            border-radius: 15px;
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 700px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-quote:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(255,107,107,0.2);
+        }
+
+        .interactive-quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: #ff6b6b;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 70px;
+                margin-right: 0;
+                padding-left: 25px;
+                padding-right: 25px;
+                text-align: left;
+            }
+
+            .timeline-item::before {
+                left: 30px;
+                transform: translateX(-50%);
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            body {
+                cursor: default;
+            }
+
+            .cursor, .cursor-trail {
+                display: none;
+            }
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-cat {
+            font-size: 4rem;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .loading-text {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-cat">🐱</div>
+            <div class="loading-text">Loading Nishu's magical story...</div>
+        </div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="cursor" id="cursor"></div>
+
+    <!-- Progress tracker -->
+    <div class="progress-tracker">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
     <!-- Floating cats background -->
     <div class="floating-cats" id="floatingCats"></div>
 
+    <!-- Achievement notification -->
+    <div class="achievement" id="achievement"></div>
+
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="header">
         <div class="container">
             <nav class="nav">
                 <a href="#" class="logo">Nishu's Journey</a>
@@ -509,6 +872,7 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="particles" id="particles"></div>
         <div class="container">
             <div class="hero-content">
                 <h1>Meet Nishu</h1>
@@ -522,53 +886,58 @@
     <section id="story" class="section">
         <div class="container">
             <h2 class="section-title scroll-reveal">The Tale of Pixie & Her Guardian Angel</h2>
+            
+            <div class="interactive-quote scroll-reveal">
+                Sometimes the most beautiful friendships begin with a single act of kindness...
+            </div>
+            
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>🐾 A Stray's Beginning</h3>
-                        <p>Once upon a time, there was a beautiful black cat named Pixie who roamed the streets, searching for a place to call home. Life as a stray wasn't easy, but Pixie was strong and determined to survive.</p>
+                        <p>Once upon a time, there was a beautiful black cat named Pixie who roamed the streets, searching for a place to call home. Life as a stray wasn't easy, but Pixie was strong and determined to survive, carrying within her the hope of a better tomorrow.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>😿 A Mother's Worst Fear</h3>
-                        <p>One day, disaster struck. Pixie's tiny kitten fell into a deep pipe and couldn't get out. The little one's cries echoed through the narrow space as Pixie paced anxiously above, unable to help her baby.</p>
+                        <p>One day, disaster struck. Pixie's tiny kitten fell into a deep pipe and couldn't get out. The little one's cries echoed through the narrow space as Pixie paced anxiously above, unable to help her baby. A mother's heart was breaking.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>👩‍🏫 An Angel Appears</h3>
-                        <p>That's when Nishu appeared - like an angel sent from heaven. Without hesitation, this kind-hearted English teacher carefully rescued the frightened kitten from the pipe, her gentle hands providing safety and warmth.</p>
+                        <p>That's when Nishu appeared - like an angel sent from heaven. Without hesitation, this kind-hearted English teacher carefully rescued the frightened kitten from the pipe, her gentle hands providing safety and warmth. Heroes come in all forms.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>😨 Fear and Distance</h3>
-                        <p>But the rescued kitten, traumatized by the experience, was too scared to trust anyone. Despite Nishu's kindness, the little one kept its distance, hiding whenever she came near.</p>
+                        <p>But the rescued kitten, traumatized by the experience, was too scared to trust anyone. Despite Nishu's kindness, the little one kept its distance, hiding whenever she came near. Sometimes love takes time to heal wounded hearts.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>💝 A Mother's Gratitude</h3>
-                        <p>Pixie, however, recognized the pure heart that had saved her baby. In the most beautiful display of trust, she brought her second kitten to Nishu - a gesture that said "I trust you with my most precious gifts."</p>
+                        <p>Pixie, however, recognized the pure heart that had saved her baby. In the most beautiful display of trust, she brought her second kitten to Nishu - a gesture that said "I trust you with my most precious gifts." True recognition of a beautiful soul.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>🥛 Daily Acts of Love</h3>
-                        <p>From that day forward, Nishu began feeding Pixie and her babies daily. Her consistency and love created a bond that transcended species - a testament to her beautiful soul.</p>
+                        <p>From that day forward, Nishu began feeding Pixie and her babies daily. Her consistency and love created a bond that transcended species - a testament to her beautiful soul. Every day became a promise kept.</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>🤗 Love Conquers All</h3>
-                        <p>Time worked its magic, and slowly but surely, even the once-frightened first kitten began to trust Nishu. Love, patience, and kindness had transformed fear into affection, creating a beautiful family.</p>
+                        <p>Time worked its magic, and slowly but surely, even the once-frightened first kitten began to trust Nishu. Love, patience, and kindness had transformed fear into affection, creating a beautiful family bound not by blood, but by love.</p>
                     </div>
                 </div>
             </div>
@@ -583,37 +952,37 @@
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">👩‍🏫</div>
                     <h3 class="card-title">English Teacher</h3>
-                    <p class="card-description">Shaping young minds with her passion for language and literature. Nishu brings English to life in her classroom at the institute, inspiring students to find their voice through words.</p>
+                    <p class="card-description">Shaping young minds with her passion for language and literature. Nishu brings English to life in her classroom at the institute, inspiring students to find their voice through words and unlock their potential.</p>
                 </div>
                 
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">🎮</div>
                     <h3 class="card-title">BGMI Enthusiast</h3>
-                    <p class="card-description">When the day gets tough, Nishu unwinds with some intense BGMI gaming sessions. She's got skills both in the classroom and on the battlefield - talk about being multi-talented!</p>
+                    <p class="card-description">When the day gets tough, Nishu unwinds with some intense BGMI gaming sessions. She's got skills both in the classroom and on the virtual battlefield - talk about being incredibly multi-talented!</p>
                 </div>
                 
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">📚</div>
                     <h3 class="card-title">Dream Chaser</h3>
-                    <p class="card-description">Currently preparing for her entrance exam with determination and hope. This time is going to be different - this time she's going to ace it and make her dreams come true!</p>
+                    <p class="card-description">Currently preparing for her entrance exam with unwavering determination and boundless hope. This time is going to be different - this time she's going to ace it and make all her dreams come true!</p>
                 </div>
                 
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">❤️</div>
-                    <h3 class="card-title">Animal Lover</h3>
-                    <p class="card-description">Her heart is as big as her smile. From rescuing kittens to feeding stray cats daily, Nishu proves that the smallest acts of kindness can create the biggest changes in the world.</p>
+                    <h3 class="card-title">Animal Guardian</h3>
+                    <p class="card-description">Her heart is as vast as the ocean. From rescuing kittens stuck in pipes to feeding stray cats daily, Nishu proves that the smallest acts of kindness can create the most profound changes in the world.</p>
                 </div>
                 
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">😄</div>
                     <h3 class="card-title">Joy Bringer</h3>
-                    <p class="card-description">Life's too short to be serious all the time! Nishu has this amazing ability to light up any room with her laughter and appreciate good humor (even the occasionally cheeky kind!).</p>
+                    <p class="card-description">Life's too precious to be serious all the time! Nishu has this magical ability to light up any room with her infectious laughter and appreciate good humor (even the occasionally cheeky kind!).</p>
                 </div>
                 
                 <div class="portfolio-card scroll-reveal">
                     <div class="card-icon">🌸</div>
                     <h3 class="card-title">Beautiful Soul</h3>
-                    <p class="card-description">Like the white flower she wore, Nishu's beauty radiates from within. Her gentle spirit, caring nature, and infectious smile make the world a brighter place for everyone around her.</p>
+                    <p class="card-description">Like the white flower she wore, Nishu's beauty radiates from deep within her spirit. Her gentle nature, caring heart, and radiant smile make the world infinitely brighter for everyone fortunate enough to know her.</p>
                 </div>
             </div>
         </div>
@@ -623,6 +992,9 @@
     <section class="section">
         <div class="container">
             <h2 class="section-title scroll-reveal">Captured Moments</h2>
+            <div class="interactive-quote scroll-reveal">
+                Every picture tells a story, every moment holds a memory...
+            </div>
             <div class="photo-gallery">
                 <div class="photo-item scroll-reveal" style="background-image: url('cat1.jpeg')">
                     <div class="photo-overlay">
@@ -655,12 +1027,70 @@
         </div>
     </section>
 
+    <!-- Interactive Gaming Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">Gaming & Dreams</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card scroll-reveal">
+                    <div class="card-icon">🎯</div>
+                    <h3 class="card-title">Strategic Mind</h3>
+                    <p class="card-description">BGMI isn't just a game for Nishu - it's where her strategic thinking shines. Every match is a lesson in quick decision-making and teamwork that translates beautifully to her teaching approach.</p>
+                </div>
+                
+                <div class="portfolio-card scroll-reveal">
+                    <div class="card-icon">🏆</div>
+                    <h3 class="card-title">Entrance Exam Warrior</h3>
+                    <p class="card-description">Just like she strategizes in games, Nishu is approaching her entrance exam with determination and skill. This time, victory is within reach - we can feel it!</p>
+                </div>
+                
+                <div class="portfolio-card scroll-reveal">
+                    <div class="card-icon">🌟</div>
+                    <h3 class="card-title">Balanced Life</h3>
+                    <p class="card-description">Teaching by day, gaming by evening, studying for dreams, and always making time for Pixie and her kittens. Nishu proves that you can pursue multiple passions and excel at them all.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Encouragement Section -->
     <section id="encouragement" class="section">
         <div class="container">
             <div class="encouragement scroll-reveal">
-                <h2>Your Dreams Are Calling</h2>
-                <p>Dear Nishu, just like how you never gave up on Pixie and her kittens, never give up on your dreams. This entrance exam is just another kitten stuck in a pipe - and we know you're the perfect person to rescue it! You've got this, and this time is definitely going to be YOUR time to shine! 🌟</p>
+                <div class="encouragement-content">
+                    <h2>Your Dreams Are Calling, Nishu!</h2>
+                    <p>Just like how you never gave up on Pixie and her kittens, never give up on your dreams. This entrance exam is just another challenge to overcome - and we know you're the perfect person to conquer it! You've got the heart of a teacher, the strategy of a gamer, and the soul of an angel. This time is definitely going to be YOUR time to shine! 🌟</p>
+                </div>
+            </div>
+            
+            <div class="interactive-quote scroll-reveal">
+                "Success is not final, failure is not fatal: it is the courage to continue that counts." - Just like your daily commitment to Pixie, your commitment to your dreams will lead you to victory!
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Message Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title scroll-reveal">A Message of Hope</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-card scroll-reveal" onclick="showAchievement('You inspire everyone around you! 🌟')">
+                    <div class="card-icon">💪</div>
+                    <h3 class="card-title">Strength</h3>
+                    <p class="card-description">Click to reveal your inner strength! Every challenge you've faced has made you stronger.</p>
+                </div>
+                
+                <div class="portfolio-card scroll-reveal" onclick="showAchievement('Your kindness changes the world! 💕')">
+                    <div class="card-icon">🤝</div>
+                    <h3 class="card-title">Kindness</h3>
+                    <p class="card-description">Click to celebrate your beautiful heart! Your compassion touches every life you meet.</p>
+                </div>
+                
+                <div class="portfolio-card scroll-reveal" onclick="showAchievement('Your dreams are waiting for you! 🚀')">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Future</h3>
+                    <p class="card-description">Click to unlock your bright future! Amazing things are heading your way.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -669,13 +1099,70 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <p>Made with <span class="heart">❤️</span> by someone who believes in your dreams</p>
-                <p>Keep being amazing, Nishu! 🐾</p>
+                <p>Made with <span class="heart">❤️</span> by someone who believes in your incredible journey</p>
+                <p>Keep being amazing, Nishu! The world needs more souls like yours 🐾✨</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Enhanced cursor tracking
+        const cursor = document.getElementById('cursor');
+        const trails = [];
+        
+        // Create cursor trails
+        for(let i = 0; i < 5; i++) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            document.body.appendChild(trail);
+            trails.push(trail);
+        }
+
+        let mouseX = 0, mouseY = 0;
+        let trailPositions = Array(5).fill({x: 0, y: 0});
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+        });
+
+        // Animate cursor trails
+        function animateTrails() {
+            trailPositions.unshift({x: mouseX, y: mouseY});
+            trailPositions.pop();
+            
+            trails.forEach((trail, index) => {
+                const pos = trailPositions[index];
+                trail.style.left = pos.x + 'px';
+                trail.style.top = pos.y + 'px';
+                trail.style.opacity = (5 - index) * 0.15;
+            });
+            
+            requestAnimationFrame(animateTrails);
+        }
+        animateTrails();
+
+        // Progress bar
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        }
+
+        // Header scroll effect
+        function updateHeader() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
         // Scroll reveal animation
         function revealOnScroll() {
             const reveals = document.querySelectorAll('.scroll-reveal');
@@ -695,28 +1182,58 @@
         function animateTimeline() {
             const timelineItems = document.querySelectorAll('.timeline-item');
             timelineItems.forEach((item, index) => {
-                item.style.animationDelay = `${index * 0.3}s`;
+                item.style.animationDelay = `${index * 0.4}s`;
             });
         }
 
-        // Create floating cats
+        // Enhanced floating cats
         function createFloatingCats() {
             const container = document.getElementById('floatingCats');
-            const catEmojis = ['🐱', '🐾', '😸', '😻'];
+            const catEmojis = ['🐱', '🐾', '😸', '😻', '🦋', '🌸', '✨', '💝'];
             
             setInterval(() => {
-                if (Math.random() < 0.3) {
+                if (Math.random() < 0.4) {
                     const cat = document.createElement('div');
                     cat.className = 'floating-cat';
                     cat.textContent = catEmojis[Math.floor(Math.random() * catEmojis.length)];
                     cat.style.top = Math.random() * 100 + 'vh';
-                    cat.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    cat.style.left = '-100px';
+                    cat.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                    cat.style.fontSize = (Math.random() * 1.5 + 1.5) + 'rem';
                     container.appendChild(cat);
                     
                     setTimeout(() => {
-                        cat.remove();
-                    }, 20000);
+                        if (cat.parentNode) {
+                            cat.remove();
+                        }
+                    }, 25000);
                 }
+            }, 2000);
+        }
+
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            
+            for(let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Achievement system
+        function showAchievement(message) {
+            const achievement = document.getElementById('achievement');
+            achievement.textContent = message;
+            achievement.classList.add('show');
+            
+            setTimeout(() => {
+                achievement.classList.remove('show');
             }, 3000);
         }
 
@@ -736,35 +1253,180 @@
             });
         }
 
+        // Add sparkles to encouragement section
+        function createSparkles() {
+            const encouragement = document.querySelector('.encouragement');
+            const sparkleEmojis = ['✨', '🌟', '💫', '⭐'];
+            
+            setInterval(() => {
+                if (Math.random() < 0.6) {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.top = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    encouragement.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.remove();
+                        }
+                    }, 3000);
+                }
+            }, 1500);
+        }
+
+        // Loading screen
+        function hideLoadingScreen() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    showAchievement('Welcome to Nishu\'s magical story! 🎉');
+                }, 500);
+            }, 2000);
+        }
+
         // Initialize everything
         window.addEventListener('load', () => {
+            hideLoadingScreen();
             animateTimeline();
             createFloatingCats();
+            createParticles();
+            createSparkles();
             smoothScroll();
             revealOnScroll();
         });
 
-        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('scroll', () => {
+            updateProgressBar();
+            updateHeader();
+            revealOnScroll();
+        });
 
-        // Add some interactive hover effects
-        document.querySelectorAll('.portfolio-card').forEach(card => {
+        // Enhanced hover effects
+        document.querySelectorAll('.portfolio-card').forEach((card, index) => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.transform = 'translateY(-15px) scale(1.03) rotateY(5deg)';
+                this.style.boxShadow = '0 25px 60px rgba(0,0,0,0.2)';
             });
             
             card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
+                this.style.transform = 'translateY(0) scale(1) rotateY(0deg)';
+                this.style.boxShadow = '0 15px 40px rgba(0,0,0,0.1)';
+            });
+
+            // Random achievement triggers
+            card.addEventListener('click', function() {
+                const achievements = [
+                    'You clicked on awesomeness! 🎉',
+                    'Discovering more about amazing Nishu! ✨',
+                    'Every click reveals more magic! 🌟',
+                    'You\'re exploring a beautiful story! 💫'
+                ];
+                showAchievement(achievements[Math.floor(Math.random() * achievements.length)]);
             });
         });
 
-        // Easter egg: Click on logo for a surprise
+        // Timeline interactions
+        document.querySelectorAll('.timeline-item').forEach((item, index) => {
+            item.addEventListener('click', function() {
+                const messages = [
+                    'Every journey begins with a single step... 🐾',
+                    'Even in darkness, hope finds a way 💝',
+                    'Angels walk among us every day 👼',
+                    'Fear is just love waiting to bloom 🌸',
+                    'Trust is the greatest gift of all 💕',
+                    'Consistency creates miracles 🌟',
+                    'Love truly conquers everything! ❤️'
+                ];
+                showAchievement(messages[index] || 'What a beautiful moment! ✨');
+            });
+        });
+
+        // Easter egg: Special logo interaction
         document.querySelector('.logo').addEventListener('click', function(e) {
             e.preventDefault();
-            this.innerHTML = 'Made for Nishu 💕';
+            const messages = [
+                'Made with 💕 for amazing Nishu!',
+                'Believing in your dreams! 🌟',
+                'You\'re absolutely wonderful! ✨',
+                'Keep shining bright! 🌈'
+            ];
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            this.textContent = randomMessage;
+            
             setTimeout(() => {
-                this.innerHTML = "Nishu's Journey";
+                this.textContent = "Nishu's Journey";
             }, 3000);
         });
+
+        // Random encouragement on scroll
+        let lastScrollTime = 0;
+        window.addEventListener('scroll', () => {
+            const now = Date.now();
+            if (now - lastScrollTime > 5000) { // Every 5 seconds
+                lastScrollTime = now;
+                if (Math.random() < 0.3) {
+                    const encouragements = [
+                        'Keep scrolling through this beautiful story! 📖',
+                        'You\'re awesome for reading about Nishu! 🌟',
+                        'Every scroll reveals more magic! ✨',
+                        'Nishu\'s story is inspiring! 💕'
+                    ];
+                    showAchievement(encouragements[Math.floor(Math.random() * encouragements.length)]);
+                }
+            }
+        });
+
+        // Interactive photo gallery
+        document.querySelectorAll('.photo-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(1.1) rotate(5deg)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                }, 300);
+                
+                showAchievement('Beautiful memories captured forever! 📸');
+            });
+        });
+
+        // Konami code easter egg
+        const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        let konamiIndex = 0;
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.keyCode === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    showAchievement('🎉 SECRET UNLOCKED: You found the hidden message! Nishu is absolutely amazing! 🎉');
+                    konamiIndex = 0;
+                    
+                    // Special effect
+                    document.body.style.animation = 'rainbow 2s ease-in-out';
+                    setTimeout(() => {
+                        document.body.style.animation = '';
+                    }, 2000);
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // Rainbow animation for easter egg
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg); }
+                25% { filter: hue-rotate(90deg); }
+                50% { filter: hue-rotate(180deg); }
+                75% { filter: hue-rotate(270deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
